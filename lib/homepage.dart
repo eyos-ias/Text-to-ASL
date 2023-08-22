@@ -33,9 +33,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 100),
                 TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "your word goes here"),
+                  decoration: InputDecoration(border: OutlineInputBorder()),
                 ),
               ],
             ),
