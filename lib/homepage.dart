@@ -29,7 +29,11 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const SizedBox(
                   height: 500,
-                  child: Image(image: AssetImage('images/i_small.gif')),
+                  width: double.infinity,
+                  child: Image(
+                    image: AssetImage('images/i_small.gif'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 const SizedBox(height: 100),
                 TextField(
