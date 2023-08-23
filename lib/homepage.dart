@@ -27,10 +27,9 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               //mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image(image: AssetImage('images/i_small.gif')),
                 const SizedBox(
                   height: 500,
-                  child: Placeholder(),
+                  child: Image(image: AssetImage('images/i_small.gif')),
                 ),
                 const SizedBox(height: 100),
                 TextField(
