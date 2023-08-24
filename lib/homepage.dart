@@ -1,46 +1,61 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
+  TextEditingController _textEditingController = TextEditingController();
 
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 2,
-          title: Text(
-            'hello',
-            style: TextStyle(color: Colors.black),
-          ),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0), // Adjust the height as needed
+        child: AppBar(
           backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Row(
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  'images/zagolnabuk.png', // Replace with your logo path
+                  height: 40, // Adjust the height as needed
+                  width: 40, // Adjust the width as needed
+                ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                'Text Box Example',
+                style: TextStyle(color: Colors.black),
+              ),
+            ],
+          ),
         ),
-        body: Padding(
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
           padding: EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const SizedBox(
-                  height: 500,
-                  width: double.infinity,
-                  child: Image(
-                    image: AssetImage('images/i_small.gif'),
-                    fit: BoxFit.cover,
+          child: Column(
+            children: [
+              Container(
+                height: 500,
+                color: Colors.blue,
+                // Add any content you want to display in the box
+              ),
+              SizedBox(height: 100),
+              TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  labelText: 'Enter Text',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      _textEditingController.clear();
+                    },
                   ),
                 ),
-                const SizedBox(height: 100),
-                TextField(
-                  decoration: InputDecoration(border: OutlineInputBorder()),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
