@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,25 +25,51 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController _textEditingController = TextEditingController();
-  bool _displayBoxVisible = false;
+  final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _textFocusNode = FocusNode();
+  bool _displayImage = false;
+  String _imageName = '';
 
-  void _toggleDisplayBox() {
+  void _toggleDisplayImage() {
     setState(() {
-      _displayBoxVisible = !_displayBoxVisible;
+      _displayImage = !_displayImage;
     });
   }
 
   void _clearText() {
     setState(() {
       _textEditingController.clear();
-      _displayBoxVisible = false; // Hide the display box when clearing text
+      _displayImage = false; // Hide the image when clearing text
+    });
+  }
+
+  void _dismissKeyboard() {
+    _textFocusNode.unfocus();
+  }
+
+  Future<void> _checkImageExists(String imageName) async {
+    final directory = Directory('../images');
+    final files = await directory.list().toList();
+
+    bool exists = false;
+    for (var file in files) {
+      final fileName = file.path.split('/').last;
+      final nameWithoutExtension = fileName.split('.').first;
+      if (nameWithoutExtension == imageName) {
+        exists = true;
+        break;
+      }
+    }
+
+    setState(() {
+      _displayImage = exists;
     });
   }
 
   @override
   void dispose() {
     _textEditingController.dispose();
+    _textFocusNode.dispose();
     super.dispose();
   }
 
@@ -51,52 +79,55 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('My App'),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(20.0), // Add 20px padding on all sides
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.all(20.0), // Add 20px padding to the Display Box
-                child: Visibility(
-                  visible: _displayBoxVisible,
-                  child: Container(
-                    height: 500, // Set the height to 500 pixels
-                    color: Colors.blue.withOpacity(0.5),
-                    child: Center(
-                      child: Text(
-                        'Display Box',
-                        style: TextStyle(fontSize: 30, color: Colors.white),
-                      ),
+      body: GestureDetector(
+        onTap:
+            _dismissKeyboard, // Dismiss keyboard when tapping outside of TextField
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(20.0), // Add 20px padding on all sides
+            child: Column(
+              children: [
+                if (_displayImage)
+                  Padding(
+                    padding:
+                        EdgeInsets.all(20.0), // Add 20px padding to the Image
+                    child: Image.asset(
+                      'images/$_imageName.jpg',
+                      height: 200, // Set the height of the image
+                    ),
+                  ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _textEditingController,
+                  focusNode: _textFocusNode,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Text',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        _clearText();
+                        _dismissKeyboard(); // Dismiss keyboard when clear button is pressed
+                      },
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _textEditingController,
-                decoration: InputDecoration(
-                  labelText: 'Enter Text',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: _clearText,
-                  ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    final enteredText = _textEditingController.text.trim();
+                    if (enteredText.isNotEmpty) {
+                      _imageName = enteredText;
+                      _checkImageExists(enteredText);
+                      _dismissKeyboard(); // Dismiss keyboard when button is pressed
+                    }
+                  },
+                  child: Text('Button'),
                 ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (_textEditingController.text.isNotEmpty) {
-                    _toggleDisplayBox();
-                  }
-                },
-                child: Text('Button'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
