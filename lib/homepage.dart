@@ -1,62 +1,101 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  TextEditingController _textEditingController = TextEditingController();
+void main() {
+  runApp(MyApp());
+}
 
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0), // Adjust the height as needed
-        child: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Row(
-            children: [
-              ClipOval(
-                child: Image.asset(
-                  'images/zagolnabuk.png', // Replace with your logo path
-                  height: 40, // Adjust the height as needed
-                  width: 40, // Adjust the width as needed
-                ),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            ClipOval(
+              child: Image.asset(
+                'images/zagolnabuk.png', // Replace with your logo image path
+                height: 30, // Adjust the height as needed
               ),
-              SizedBox(width: 8),
-              Text(
-                'Text Box Example',
-                style: TextStyle(color: Colors.black),
-              ),
-            ],
-          ),
+            ),
+            SizedBox(width: 8),
+            Text('My App'),
+          ],
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Container(
-                height: 500,
-                color: Colors.blue,
-                // Add any content you want to display in the box
-              ),
-              SizedBox(height: 100),
-              TextField(
-                controller: _textEditingController,
-                decoration: InputDecoration(
-                  labelText: 'Enter Text',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () {
-                      _textEditingController.clear();
-                    },
-                  ),
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                      'images/ASL.jpeg'), // Replace with your background image path
+                  fit: BoxFit.cover,
                 ),
               ),
-            ],
-          ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: Colors.blue.withOpacity(0.5),
+                      child: Center(
+                        child: Text(
+                          'Display Box',
+                          style: TextStyle(fontSize: 30, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 100),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Enter Text',
+                        filled: true,
+                        fillColor: Colors.grey.withOpacity(0.5),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            // Clear the text field
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Container(
+                    width: 150, // Adjust the width as needed
+                    height: 30, // Adjust the height as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle button press
+                      },
+                      child: Text('Button'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
