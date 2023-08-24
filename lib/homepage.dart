@@ -17,85 +17,87 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  TextEditingController _textEditingController = TextEditingController();
+  bool _displayBoxVisible = false;
+
+  void _toggleDisplayBox() {
+    setState(() {
+      _displayBoxVisible = !_displayBoxVisible;
+    });
+  }
+
+  void _clearText() {
+    setState(() {
+      _textEditingController.clear();
+      _displayBoxVisible = false; // Hide the display box when clearing text
+    });
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            ClipOval(
-              child: Image.asset(
-                'images/zagolnabuk.png', // Replace with your logo image path
-                height: 30, // Adjust the height as needed
-              ),
-            ),
-            SizedBox(width: 8),
-            Text('My App'),
-          ],
-        ),
+        title: Text('My App'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                      'images/ASL.jpeg'), // Replace with your background image path
-                  fit: BoxFit.cover,
+        child: Container(
+          padding: EdgeInsets.all(20.0), // Add 20px padding on all sides
+          child: Column(
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.all(20.0), // Add 20px padding to the Display Box
+                child: Visibility(
+                  visible: _displayBoxVisible,
+                  child: Container(
+                    height: 500, // Set the height to 500 pixels
+                    color: Colors.blue.withOpacity(0.5),
+                    child: Center(
+                      child: Text(
+                        'Display Box',
+                        style: TextStyle(fontSize: 30, color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      color: Colors.blue.withOpacity(0.5),
-                      child: Center(
-                        child: Text(
-                          'Display Box',
-                          style: TextStyle(fontSize: 30, color: Colors.white),
-                        ),
-                      ),
-                    ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  labelText: 'Enter Text',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2.0),
                   ),
-                  SizedBox(height: 100),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Enter Text',
-                        filled: true,
-                        fillColor: Colors.grey.withOpacity(0.5),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.clear),
-                          onPressed: () {
-                            // Clear the text field
-                          },
-                        ),
-                      ),
-                    ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: _clearText,
                   ),
-                  SizedBox(height: 30),
-                  Container(
-                    width: 150, // Adjust the width as needed
-                    height: 30, // Adjust the height as needed
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Handle button press
-                      },
-                      child: Text('Button'),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  if (_textEditingController.text.isNotEmpty) {
+                    _toggleDisplayBox();
+                  }
+                },
+                child: Text('Button'),
+              ),
+            ],
+          ),
         ),
       ),
     );
