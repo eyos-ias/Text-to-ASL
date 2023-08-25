@@ -2,22 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomePage(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'My App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: HomePage(),
+//     );
+//   }
+// }
 
 class HomePage extends StatefulWidget {
   @override
@@ -48,17 +48,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _checkImageExists(String imageName) async {
-    final directory = Directory('../images');
+    final directory = Directory('/images');
+    // print(directory);
     final files = await directory.list().toList();
 
     bool exists = false;
     for (var file in files) {
-      final fileName = file.path.split('/').last;
-      final nameWithoutExtension = fileName.split('.').first;
-      if (nameWithoutExtension == imageName) {
-        exists = true;
-        break;
-      }
+      print(file);
+      // final fileName = file.path.split('/').last;
+      // final nameWithoutExtension = fileName.split('.').first;
+      // if (nameWithoutExtension == imageName) {
+      //   exists = true;
+      //   break;
+      // }
     }
 
     setState(() {
@@ -92,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                     padding:
                         EdgeInsets.all(20.0), // Add 20px padding to the Image
                     child: Image.asset(
-                      'images/$_imageName.jpg',
+                      'images/$_imageName',
                       height: 200, // Set the height of the image
                     ),
                   ),
