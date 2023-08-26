@@ -46,72 +46,109 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage('images/ear.jpg'),
+              radius: 20.0,
+            ),
+            SizedBox(width: 10.0),
+            Text('Commusign'),
+          ],
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              if (displayBoxVisible)
-                Column(
-                  children: [
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/ASL.jpeg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                if (displayBoxVisible)
+                  Column(
+                    children: [
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                        ),
+                        itemCount: words.length,
+                        itemBuilder: (context, index) {
+                          String word = words[index];
+                          String gifPath = getGifPath(word);
+                          return Image.asset(
+                            gifPath,
+                            width: 200.0,
+                            height: 200.0,
+                          );
+                        },
                       ),
-                      itemCount: words.length,
-                      itemBuilder: (context, index) {
-                        String word = words[index];
-                        String gifPath = getGifPath(word);
-                        return Image.asset(
-                          gifPath,
-                          width: 200.0,
-                          height: 200.0,
-                        );
-                      },
-                    ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: _clearForm,
-                      child: Text('Clear'),
-                    ),
-                  ],
-                ),
-              SizedBox(height: 16.0),
-              Row(
-                children: [
-                  Expanded(
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: _clearForm,
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          minimumSize: Size(150.0, 50.0),
+                        ),
+                        child: Text('Close display'),
+                      ),
+                    ],
+                  ),
+                SizedBox(height: 16.0),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Colors.grey.withOpacity(0.7),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 16.0),
                     child: TextField(
                       controller: _textEditingController,
+                      maxLines: null,
                       decoration: InputDecoration(
-                        labelText: 'Enter multiple words',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
+                        hintText: 'Enter text',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(16.0),
+                        suffixIcon: _textEditingController.text.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(
+                                  Icons.clear,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  _textEditingController.clear();
+                                },
+                              )
+                            : null,
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _textEditingController.clear();
-                      });
-                    },
-                    icon: Icon(Icons.clear),
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: _submitForm,
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    minimumSize: Size(150.0, 50.0),
                   ),
-                ],
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Submit'),
-              ),
-            ],
+                  child: Text('Translate'),
+                ),
+                SizedBox(height: 100.0),
+              ],
+            ),
           ),
         ),
       ),
