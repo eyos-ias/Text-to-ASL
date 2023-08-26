@@ -18,16 +18,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // 'image25': 'images/image25.jpg',
   };
 
-  bool isDisplayBoxVisible() {
-    return imageMap[imageName]?.isNotEmpty ?? false;
-  }
-
-  void clearImageName() {
-    setState(() {
-      imageName = '';
-    });
-  }
-
   Widget _buildImageDisplay(String imagePath) {
     if (imagePath.isEmpty) {
       return Container();
@@ -47,12 +37,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         SizedBox(height: 16.0),
-        Visibility(
-          visible: isDisplayBoxVisible(),
-          child: ElevatedButton(
-            onPressed: clearImageName,
-            child: Text('Return to Homepage'),
-          ),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              imageName = '';
+            });
+          },
+          child: Text('Close window'),
         ),
       ],
     );
@@ -62,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Commusign'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -71,48 +62,39 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               _buildImageDisplay(imageMap[imageName] ?? ''),
               SizedBox(height: 100.0),
-              if (!isDisplayBoxVisible())
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextField(
-                        controller: _textEditingController,
-                        decoration: InputDecoration(
-                          labelText: 'Enter image name',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            imageName = value;
-                          });
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      Container(
-                        width: 150.0,
-                        height: 50.0,
-                        child: Opacity(
-                          opacity: 0.5,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Do something when the button is pressed
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            child: Text('Submit'),
-                          ),
-                        ),
-                      ),
-                    ],
+              TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  labelText: 'Enter text',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    imageName = value;
+                  });
+                },
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                width: 150.0,
+                height: 50.0,
+                child: Opacity(
+                  opacity: imageName.isNotEmpty ? 1.0 : 0.5,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Do something when the button is pressed
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    child: Text('Submit'),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
