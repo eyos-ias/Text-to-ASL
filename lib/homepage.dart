@@ -7,10 +7,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _textEditingController = TextEditingController();
+  bool _isDisplayVisible = false;
   String imageName = '';
   Map<String, String> imageMap = {
     'image': 'images/image.jpg',
-    'image2': 'images/image2.jpg',
+    'all': 'images/all.gif',
     // Add mappings for the remaining images here
     // 'image3': 'images/image3.jpg',
     // 'image4': 'images/image4.jpg',
@@ -18,56 +19,77 @@ class _MyHomePageState extends State<MyHomePage> {
     // 'image25': 'images/image25.jpg',
   };
 
-  Widget _buildImageDisplay(String imagePath) {
-    if (imagePath.isEmpty) {
-      return Container();
-    }
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          height: 200.0,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue),
-          ),
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-          ),
-        ),
-        SizedBox(height: 16.0),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              imageName = '';
-            });
-          },
-          child: Text('Close window'),
-        ),
-      ],
-    );
+  void _submitForm() {
+    FocusScope.of(context).unfocus(); // Hide the keyboard
+    if (imageName.isNotEmpty) {
+      setState(() {
+        _isDisplayVisible = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Commusign'),
+        title: Text('Flutter App'),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20.0),
           child: Column(
             children: [
-              _buildImageDisplay(imageMap[imageName] ?? ''),
+              Visibility(
+                visible: _isDisplayVisible,
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 200.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blue),
+                      ),
+                      child: Image.asset(
+                        imageMap[imageName] ?? '',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _isDisplayVisible = false;
+                        });
+                      },
+                      child: Text('Return to Homepage'),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 100.0),
               TextField(
                 controller: _textEditingController,
                 decoration: InputDecoration(
-                  labelText: 'Enter text',
+                  labelText: 'Enter image name',
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        _textEditingController.clear();
+                        imageName = '';
+                        _isDisplayVisible =
+                            false; // Hide display box and button
+                      });
+                    },
                   ),
                 ),
                 onChanged: (value) {
@@ -83,9 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Opacity(
                   opacity: imageName.isNotEmpty ? 1.0 : 0.5,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Do something when the button is pressed
-                    },
+                    onPressed: _submitForm,
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
