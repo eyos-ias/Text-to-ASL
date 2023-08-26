@@ -18,21 +18,43 @@ class _MyHomePageState extends State<MyHomePage> {
     // 'image25': 'images/image25.jpg',
   };
 
+  bool isDisplayBoxVisible() {
+    return imageMap[imageName]?.isNotEmpty ?? false;
+  }
+
+  void clearImageName() {
+    setState(() {
+      imageName = '';
+    });
+  }
+
   Widget _buildImageDisplay(String imagePath) {
     if (imagePath.isEmpty) {
       return Container();
     }
 
-    return Container(
-      width: double.infinity,
-      height: 200.0,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue),
-      ),
-      child: Image.asset(
-        imagePath,
-        fit: BoxFit.cover,
-      ),
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 200.0,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.blue),
+          ),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+          ),
+        ),
+        SizedBox(height: 16.0),
+        Visibility(
+          visible: isDisplayBoxVisible(),
+          child: ElevatedButton(
+            onPressed: clearImageName,
+            child: Text('Return to Homepage'),
+          ),
+        ),
+      ],
     );
   }
 
@@ -47,52 +69,50 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.all(20.0),
           child: Column(
             children: [
-              Visibility(
-                visible: imageMap[imageName]?.isNotEmpty ?? false,
-                child: _buildImageDisplay(imageMap[imageName] ?? ''),
-              ),
+              _buildImageDisplay(imageMap[imageName] ?? ''),
               SizedBox(height: 100.0),
-              Visibility(
-                visible: imageMap[imageName]?.isEmpty ?? true,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextField(
-                      controller: _textEditingController,
-                      decoration: InputDecoration(
-                        labelText: 'Enter image name',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          imageName = value;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 16.0),
-                    Container(
-                      width: 150.0,
-                      height: 50.0,
-                      child: Opacity(
-                        opacity: 0.5,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Do something when the button is pressed
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
+              if (!isDisplayBoxVisible())
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextField(
+                        controller: _textEditingController,
+                        decoration: InputDecoration(
+                          labelText: 'Enter image name',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue),
                           ),
-                          child: Text('Submit'),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            imageName = value;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 16.0),
+                      Container(
+                        width: 150.0,
+                        height: 50.0,
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Do something when the button is pressed
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            child: Text('Submit'),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
             ],
           ),
         ),
