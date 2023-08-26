@@ -7,17 +7,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _textEditingController = TextEditingController();
-  bool _isDisplayVisible = false;
-  String imageName = '';
-  Map<String, String> imageMap = {
-    'image': 'images/image.jpg',
-    'all': 'images/all.gif',
-    // Add mappings for the remaining images here
-    // 'image3': 'images/image3.jpg',
-    // 'image4': 'images/image4.jpg',
-    // ...
-    // 'image25': 'images/image25.jpg',
-  };
+  List<String> words = [];
 
   @override
   void dispose() {
@@ -26,12 +16,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _submitForm() {
-    FocusScope.of(context).unfocus(); // Hide the keyboard
-    if (imageName.isNotEmpty) {
+    String input = _textEditingController.text.trim();
+    if (input.isNotEmpty) {
+      List<String> inputWords = input.split(' ');
       setState(() {
-        _isDisplayVisible = true;
+        words.addAll(inputWords);
       });
+      _textEditingController.clear();
     }
+  }
+
+  String getGifPath(String word) {
+    return 'images/$word.gif';
   }
 
   @override
@@ -45,75 +41,39 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.all(20.0),
           child: Column(
             children: [
-              Visibility(
-                visible: _isDisplayVisible,
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 200.0,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue),
-                      ),
-                      child: Image.asset(
-                        imageMap[imageName] ?? '',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _isDisplayVisible = false;
-                        });
-                      },
-                      child: Text('Return to Homepage'),
-                    ),
-                  ],
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
                 ),
-              ),
-              SizedBox(height: 100.0),
-              TextField(
-                controller: _textEditingController,
-                decoration: InputDecoration(
-                  labelText: 'Enter image name',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () {
-                      setState(() {
-                        _textEditingController.clear();
-                        imageName = '';
-                        _isDisplayVisible =
-                            false; // Hide display box and button
-                      });
-                    },
-                  ),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    imageName = value;
-                  });
+                itemCount: words.length,
+                itemBuilder: (context, index) {
+                  String word = words[index];
+                  String gifPath = getGifPath(word);
+                  return Image.asset(
+                    gifPath,
+                    width: 200.0,
+                    height: 200.0,
+                  );
                 },
               ),
               SizedBox(height: 16.0),
-              Container(
-                width: 150.0,
-                height: 50.0,
-                child: Opacity(
-                  opacity: imageName.isNotEmpty ? 1.0 : 0.5,
-                  child: ElevatedButton(
-                    onPressed: _submitForm,
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    child: Text('Submit'),
+              TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  labelText: 'Enter multiple words',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                 ),
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _submitForm,
+                child: Text('Submit'),
               ),
             ],
           ),
