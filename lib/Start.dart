@@ -1,5 +1,6 @@
 import 'package:first/Text_ASL.dart';
 import 'package:first/FilePicker.dart';
+import 'package:first/voice_input.dart';
 import 'package:flutter/material.dart';
 
 class Start extends StatelessWidget {
@@ -36,6 +37,16 @@ class Start extends StatelessWidget {
                 );
               },
               child: Text('Upload File'),
+            ),
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VoiceInput()),
+                );
+              },
+              child: Text('talk to me'),
             ),
           ],
         ),

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:open_file_chooser/open_file_chooser.dart';
+import 'package:open_file/open_file.dart';
 
 class FilePickerExample extends StatefulWidget {
   @override
@@ -30,24 +30,23 @@ class _FilePickerExampleState extends State<FilePickerExample> {
         print('Selected File: $_fileName');
         print('File Path: $_filePath');
 
-        if (Platform.isAndroid) {
+        if (Platform.isAndroid || Platform.isIOS) {
           OpenFile.open(_filePath!);
-        } else if (Platform.isIOS) {
-          await OpenFile.open(_filePath!);
         } else {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('Unsupported Platform'),
-                content: Text('File opening is not supported on this platform.'),
+                content:
+                    Text('File opening is not supported on this platform.'),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     child: Text('OK'),
-                  )
+                  ),
                 ],
               );
             },
