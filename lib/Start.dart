@@ -43,7 +43,7 @@ class Start extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => VoiceToGifPage()),
+                  MaterialPageRoute(builder: (context) => VoiceToGifScreen()),
                 );
               },
               child: Text('talk to me'),
