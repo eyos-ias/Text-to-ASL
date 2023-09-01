@@ -1,107 +1,40 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:open_file/open_file.dart';
+import 'package:first/main.dart';
+import 'package:flutter/material.dart';
 
-class FilePickerExample extends StatefulWidget {
+
+
+File file = File("");
+
+class filePicker extends StatefulWidget {
+  const filePicker({super.key});
+
   @override
-  _FilePickerExampleState createState() => _FilePickerExampleState();
+  State<filePicker> createState() => _filePickerState();
 }
 
-class _FilePickerExampleState extends State<FilePickerExample> {
-  String? _fileName;
-  String? _filePath;
-
-  Future<void> _openFilePicker() async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['*'],
-      );
-
-      if (result != null) {
-        PlatformFile file = result.files.first;
-
-        setState(() {
-          _fileName = file.name;
-          _filePath = file.path!;
-        });
-
-        print('Selected File: $_fileName');
-        print('File Path: $_filePath');
-
-        if (Platform.isAndroid || Platform.isIOS) {
-          OpenFile.open(_filePath!);
-        } else {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Unsupported Platform'),
-                content:
-                    Text('File opening is not supported on this platform.'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      }
-    } catch (e) {
-      print('Error while picking or opening the file: $e');
-    }
-  }
-
+class _filePickerState extends State<filePicker> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('File Picker Example'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return MaterialApp(
+      home: Scaffold(
+        body: Column(
           children: [
-            ElevatedButton(
-              onPressed: _openFilePicker,
-              child: Text('Open File Picker'),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Selected File: ${_fileName ?? ''}',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'File Path: ${_filePath ?? ''}',
-              style: TextStyle(fontSize: 16),
-            ),
+            Image.file(file),
+            TextButton(
+                onPressed: () {
+                  pickFile();
+                },
+                child: const Text("pick file"))
           ],
         ),
       ),
     );
   }
-}
 
-void main() {
-  runApp(FilePickerApp());
-}
+  void pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-class FilePickerApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'File Picker Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: FilePickerExample(),
-    );
   }
 }

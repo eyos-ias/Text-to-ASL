@@ -33,7 +33,7 @@ class Start extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FilePickerExample()),
+                  MaterialPageRoute(builder: (context) => filePicker()),
                 );
               },
               child: Text('Upload File'),
@@ -43,7 +43,7 @@ class Start extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => VoiceToGifScreen()),
+                  MaterialPageRoute(builder: (context) => VoiceToGifPage()),
                 );
               },
               child: Text('talk to me'),

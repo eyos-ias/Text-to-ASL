@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class Text_ASL extends StatefulWidget {
   @override
   _Text_ASLState createState() => _Text_ASLState();
