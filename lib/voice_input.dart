@@ -1,174 +1,138 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:flutter/services.dart' show rootBundle;
 
-// void main() {
-//   runApp(VoiceToGifApp());
-// }
-
-// class VoiceToGifApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Voice to GIF',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: VoiceToGifScreen(),
-//     );
-//   }
-// }
-
-class VoiceToGifScreen extends StatefulWidget {
-  @override
-  _VoiceToGifScreenState createState() => _VoiceToGifScreenState();
+void main() {
+  runApp(MyApp());
 }
 
-class _VoiceToGifScreenState extends State<VoiceToGifScreen> {
-  late stt.SpeechToText _speech;
-  bool _isRecording = false;
-  String _text = '';
-  List<String> _gifPaths = [];
-  final TextEditingController _textEditingController = TextEditingController();
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Voice Input',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: VoiceInput(),
+    );
+  }
+}
+
+class VoiceInput extends StatefulWidget {
+  @override
+  _VoiceInputState createState() => _VoiceInputState();
+}
+
+class _VoiceInputState extends State<VoiceInput> {
+  late stt.SpeechToText _speechToText;
+  bool _isListening = false;
+  String _transcription = '';
 
   @override
   void initState() {
     super.initState();
-    _speech = stt.SpeechToText();
-    _textEditingController.addListener(_updateClearIconVisibility);
+    _initializeSpeechToText();
   }
 
-  @override
-  void dispose() {
-    _speech.stop();
-    _textEditingController.dispose();
-    super.dispose();
-  }
-
-  void _updateClearIconVisibility() {
-    setState(() {
-      _text = _textEditingController.text;
-    });
-  }
-
-  void _listen() async {
-    if (!_isRecording) {
-      bool available = await _speech.initialize(
-        onStatus: (status) {
-          if (status == 'notListening') {
-            setState(() {
-              _isRecording = false;
-            });
-          }
-        },
-        onError: (error) {
-          print('Error: $error');
-          setState(() {
-            _isRecording = false;
-          });
-        },
-      );
-      if (available) {
-        setState(() {
-          _isRecording = true;
-          _gifPaths = [];
-        });
-        _speech.listen(
-          onResult: (result) {
-            setState(() {
-              _textEditingController.text = result.recognizedWords;
-              _text = result.recognizedWords;
-            });
-            _displayGifs();
-          },
-        );
-      }
-    } else {
-      setState(() {
-        _isRecording = false;
-      });
-      _speech.stop();
+  Future<void> _initializeSpeechToText() async {
+    _speechToText = stt.SpeechToText();
+    await _speechToText.initialize();
+    if (!_speechToText.isAvailable) {
+      print('Speech recognition is not available');
     }
+    setState(() {});
   }
 
-  void _displayGifs() {
-    String gifFolderPath = 'images/'; // Path to the folder containing the GIFs
-    String inputWord =
-        _text.toLowerCase(); // Convert the input word to lowercase
-    String gifFilename = '$inputWord.gif'; // Append '.gif' to the input word
-    String gifPath =
-        gifFolderPath + gifFilename; // Construct the path to the GIF
-
-    // Check if the GIF file exists
-    bool gifExists = File(gifPath).existsSync();
-
+  void _startListening() {
+    _speechToText.listen(
+      onResult: (result) {
+        setState(() {
+          _transcription = result.recognizedWords.toLowerCase();
+        });
+      },
+    );
     setState(() {
-      _gifPaths = gifExists
-          ? [gifPath]
-          : []; // Display the GIF if it exists, else clear the list
+      _isListening = true;
     });
   }
 
-  void _clearText() {
+  void _stopListening() {
+    _speechToText.stop();
     setState(() {
-      _textEditingController.clear();
-      _text = '';
-      _gifPaths = [];
+      _isListening = false;
     });
+  }
+
+  Future<Widget> _loadImage(String imagePath) async {
+    final data = await rootBundle.load(imagePath);
+    final bytes = data.buffer.asUint8List();
+    return Image.memory(
+      bytes,
+      width: 200.0,
+      height: 200.0,
+      gaplessPlayback: true,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_speechToText == null) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    String imagePath = 'images/${_transcription.replaceAll(' ', '_')}.gif';
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Voice to GIF'),
+        title: Text('Voice Input'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: _listen,
-                    child: Icon(
-                      _isRecording ? Icons.mic : Icons.mic_none,
-                      size: 40,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    _text,
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _clearText,
-                    child: Icon(Icons.clear),
-                  ),
-                ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: _isListening ? _stopListening : _startListening,
+              child: Icon(
+                _isListening ? Icons.mic : Icons.mic_none,
+                size: 48.0,
+                color: _isListening ? Colors.red : Colors.blue,
               ),
             ),
-          ),
-          Container(
-            height: 200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _gifPaths.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Image.asset(_gifPaths[index]),
-                );
-              },
+            Container(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                _isListening ? 'Listening...' : 'Not Listening',
+                style: TextStyle(fontSize: 18.0),
+              ),
             ),
-          ),
-        ],
+            Container(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                _transcription,
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+            if (_transcription.isNotEmpty)
+              FutureBuilder<Widget>(
+                future: _loadImage(imagePath),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return Text('Error loading image');
+                  }
+                  return snapshot.data ?? SizedBox.shrink();
+                },
+              ),
+          ],
+        ),
       ),
     );
   }
