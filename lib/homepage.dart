@@ -7,6 +7,24 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: CircleAvatar(
+            backgroundImage: AssetImage(
+                'images/Commusign.png'), // Replace with your logo image path
+            radius: 20,
+          ),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              'Commusign',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

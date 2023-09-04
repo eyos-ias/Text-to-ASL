@@ -28,16 +28,16 @@ class Start extends StatelessWidget {
               },
               child: Text('Input Text'),
             ),
-            //SizedBox(height: 8),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => filePicker()),
-            //     );
-            //   },
-            //   child: Text('Upload File'),
-            // ),
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FilePickerPage()),
+                );
+              },
+              child: Text('Upload File'),
+            ),
             SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
