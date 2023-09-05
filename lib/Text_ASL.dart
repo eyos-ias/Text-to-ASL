@@ -53,7 +53,14 @@ class _Text_ASLState extends State<Text_ASL> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Commusign'),
+        backgroundColor: Colors.black,
+        title: Text(
+          'Commusign',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+        ),
       ),
       body: Container(
         constraints: BoxConstraints.expand(),

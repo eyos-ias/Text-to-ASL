@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter/services.dart' show rootBundle;
 
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -77,6 +76,7 @@ class _VoiceInputState extends State<VoiceInput> {
   Widget build(BuildContext context) {
     if (_speechToText == null) {
       return Scaffold(
+        backgroundColor: Colors.black,
         body: Center(
           child: CircularProgressIndicator(),
         ),
@@ -87,8 +87,35 @@ class _VoiceInputState extends State<VoiceInput> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Voice Input'),
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: Image.asset(
+            'images/Vectorback.png',
+            width: 10,
+          ),
+          onPressed: () {
+            Navigator.pop(context); // Navigates to the previous page
+          },
+        ),
+        title: Container(
+          width: 200.0,
+          child: Row(
+            children: [
+              Image.asset(
+                'images/Icon1.png',
+                width: 30,
+                height: 30,
+              ),
+              SizedBox(width: 8),
+              Text(
+                'Voice Input',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
       ),
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -134,3 +161,7 @@ class _VoiceInputState extends State<VoiceInput> {
     );
   }
 }
+
+// void main() {
+//   runApp(MyApp());
+// }
