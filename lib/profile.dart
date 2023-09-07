@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(profilePage());
+  runApp(ProfilePage());
 }
 
-class profilePage extends StatelessWidget {
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sign In and Login',
+      title: 'Profile Page',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -23,97 +23,120 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  bool isPasswordVisible = false;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
 
-  void signIn() {
+  bool _isPasswordVisible = false;
+
+  void _signIn() {
     // Implement your sign-in logic here
-    String email = emailController.text;
-    String password = passwordController.text;
-    // Call your authentication API or perform any necessary checks
-    // ...
-    // Navigate to the home screen or display an error message
-    // ...
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
         title: Text('Sign In'),
       ),
       body: Container(
-        color: Colors.black,
         padding: EdgeInsets.all(16.0),
+        color: Colors.black,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              controller: emailController,
+            TextField(
+              controller: _usernameController,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: 'Username',
+                labelStyle: TextStyle(color: Colors.white),
+                prefixIconColor: Colors.white,
+                prefixIcon: Icon(Icons.person),
+                // iconColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              controller: _emailController,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Email',
                 labelStyle: TextStyle(color: Colors.white),
-                hintText:
-                    emailController.text.isEmpty ? 'Enter your email' : '',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(),
+                prefixIconColor: Colors.white,
+                prefixIcon: Icon(Icons.email),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
               ),
-              onChanged: (value) {
-                setState(() {});
-              },
             ),
             SizedBox(height: 16.0),
-            TextFormField(
-              controller: passwordController,
+            TextField(
+              controller: _passwordController,
               style: TextStyle(color: Colors.white),
-              obscureText: !isPasswordVisible,
               decoration: InputDecoration(
                 labelText: 'Password',
                 labelStyle: TextStyle(color: Colors.white),
-                hintText: passwordController.text.isEmpty
-                    ? 'Enter your password'
-                    : '',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
+                prefixIconColor: Colors.white,
+                prefixIcon: Icon(Icons.lock),
+                suffixIconColor: Colors.white,
                 suffixIcon: IconButton(
                   icon: Icon(
-                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.white,
+                    _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                   ),
                   onPressed: () {
                     setState(() {
-                      isPasswordVisible = !isPasswordVisible;
+                      _isPasswordVisible = !_isPasswordVisible;
                     });
                   },
                 ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
               ),
-              onChanged: (value) {
-                setState(() {});
-              },
+              obscureText: !_isPasswordVisible,
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: signIn,
-              child: Text('Sign In'),
-            ),
-            ElevatedButton(
-              onPressed: () {
+            GestureDetector(
+              onTap: () {
                 // Navigate to the sign-up page
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SignUpPage()),
                 );
               },
-              child: Text('Create an account'),
+              child: Text(
+                "Create an account",
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _signIn,
+              child: Text('Sign In'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(248, 18, 202, 156),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+              ),
             ),
           ],
         ),
@@ -128,130 +151,202 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  bool isPasswordVisible = false;
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
 
-  void signUp() {
-    // Implement your sign-up logic here
-    String firstName = firstNameController.text;
-    String lastName = lastNameController.text;
-    String email = emailController.text;
-    String password = passwordController.text;
-    // Call your registration API or perform any necessary checks
-    // ...
-    // Navigate to the home screen or display an error message
-    // ...
+  bool _isPasswordVisible = false;
+  bool _showEmailRequiredError = false;
+  final _formKey = GlobalKey<FormState>();
+
+  void _signUp() {
+    setState(() {
+      if (_emailController.text.isEmpty) {
+        _showEmailRequiredError = true;
+      } else {
+        _showEmailRequiredError = false;
+        // Perform sign-up logic
+        String email = _emailController.text;
+        print('Signing up with email: $email');
+        // Navigate to the next page or perform any other desired action
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text('Sign Up'),
       ),
       body: Container(
-        color: Colors.black,
         padding: EdgeInsets.all(16.0),
+        color: Colors.black,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              controller: firstNameController,
+            TextField(
+              controller: _firstNameController,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'First Name',
                 labelStyle: TextStyle(color: Colors.white),
-                hintText: firstNameController.text.isEmpty
-                    ? 'Enter your first name'
-                    : '',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(),
+                // prefixIconColor: Colors.white,
+                // prefixIcon: Icon(Icons.person),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
               ),
-              onChanged: (value) {
-                setState(() {});
-              },
             ),
             SizedBox(height: 16.0),
-            TextFormField(
-              controller: lastNameController,
+            TextField(
+              controller: _lastNameController,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Last Name',
                 labelStyle: TextStyle(color: Colors.white),
-                hintText: lastNameController.text.isEmpty
-                    ? 'Enter your last name'
-                    : '',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(),
+                // prefixIconColor: Colors.white,
+                // prefixIcon: Icon(Icons.person),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
               ),
-              onChanged: (value) {
-                setState(() {});
-              },
             ),
             SizedBox(height: 16.0),
-            TextFormField(
-              controller: emailController,
+            TextField(
+              controller: _usernameController,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                labelText: 'Email',
+                labelText: 'Username',
                 labelStyle: TextStyle(color: Colors.white),
-                hintText:
-                    emailController.text.isEmpty ? 'Enter your email' : '',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(),
+                prefixIconColor: Colors.white,
+                prefixIcon: Icon(Icons.person),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
               ),
-              onChanged: (value) {
-                setState(() {});
-              },
             ),
             SizedBox(height: 16.0),
-            TextFormField(
-              controller: passwordController,
-              style: TextStyle(color: Colors.white),
-              obscureText: !isPasswordVisible,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                labelStyle: TextStyle(color: Colors.white),
-                hintText: passwordController.text.isEmpty
-                    ? 'Enter your password'
-                    : '',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isPasswordVisible = !isPasswordVisible;
-                    });
-                  },
+            Form(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _emailController,
+                      style: TextStyle(color: Colors.white),
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: TextStyle(color: Colors.white),
+                        prefixIconColor: Colors.white,
+                        prefixIcon: Icon(Icons.email),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an email';
+                        }
+                        // You can also add additional validation logic here, such as checking for a valid email format
+                        return null;
+                      },
+                      // You can also add additional validation logic here, such as checking for a valid email format
+
+                      //           TextField(
+                      //             controller: _emailController,
+                      //             decoration: InputDecoration(
+                      //               labelText: 'Email',
+                      //               labelStyle: TextStyle(color: Colors.white),
+                      //               prefixIconColor: Colors.white,
+                      //               prefixIcon: Icon(Icons.email),
+                      //               enabledBorder: OutlineInputBorder(
+                      //                 borderSide: BorderSide(color: Colors.grey),
+                      //               ),
+                      //               focusedBorder: OutlineInputBorder(
+                      //                 borderSide: BorderSide(color: Colors.grey),
+                      //               ),
+                      //             ),
+                      //             validator: (value) {
+                      //   if (value.isEmpty) {
+                      //     return 'Please enter an email';
+                      //   }
+                      //   return null;
+                      // },
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: _passwordController,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: TextStyle(color: Colors.white),
+                        prefixIconColor: Colors.white,
+                        prefixIcon: Icon(Icons.lock),
+                        suffixIconColor: Colors.white,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      obscureText: !_isPasswordVisible,
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignInPage()),
+                        );
+                      },
+                      child: Text('Sign Up'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(248, 18, 202, 156),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
+                    ),
+                    if (_showEmailRequiredError)
+                      Text(
+                        'Email is required.',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                  ],
                 ),
               ),
-              onChanged: (value) {
-                setState(() {});
-              },
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: signUp,
-              child: Text('Sign Up'),
             ),
           ],
         ),

@@ -1,5 +1,5 @@
+import 'package:first/Start.dart';
 import 'package:flutter/material.dart';
-import 'package:first/start.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -33,10 +33,12 @@ class HomePage extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(248, 18, 202, 156)),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Start()),
+                    MaterialPageRoute(builder: (context) => SecondStart()),
                   );
                 },
                 child: Text(

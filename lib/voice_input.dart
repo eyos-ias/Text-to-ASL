@@ -83,7 +83,7 @@ class _VoiceInputState extends State<VoiceInput> {
       );
     }
 
-    String imagePath = 'images/${_transcription.replaceAll(' ', '_')}.gif';
+    String imagePath = 'images/${_transcription}.gif';
 
     return Scaffold(
       appBar: AppBar(
@@ -132,14 +132,14 @@ class _VoiceInputState extends State<VoiceInput> {
               padding: EdgeInsets.all(16.0),
               child: Text(
                 _isListening ? 'Listening...' : 'Not Listening',
-                style: TextStyle(fontSize: 18.0),
+                style: TextStyle(fontSize: 18.0, color: Colors.white),
               ),
             ),
             Container(
               padding: EdgeInsets.all(16.0),
               child: Text(
                 _transcription,
-                style: TextStyle(fontSize: 18.0),
+                style: TextStyle(fontSize: 18.0, color: Colors.white),
               ),
             ),
             if (_transcription.isNotEmpty)

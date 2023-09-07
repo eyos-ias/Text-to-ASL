@@ -65,6 +65,8 @@ class _FilePickerPageState extends State<FilePickerPage> {
             child: isLoading
                 ? CircularProgressIndicator()
                 : TextButton(
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(248, 18, 202, 156)),
                     onPressed: () {
                       pickFile(FileContent);
                     },

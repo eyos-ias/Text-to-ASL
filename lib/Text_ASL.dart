@@ -54,11 +54,30 @@ class _Text_ASLState extends State<Text_ASL> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
-          'Commusign',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
+        leading: IconButton(
+          icon: Image.asset(
+            'images/Vectorback.png',
+            width: 10,
+          ),
+          onPressed: () {
+            Navigator.pop(context); // Navigates to the previous page
+          },
+        ),
+        title: Container(
+          width: 200.0,
+          child: Row(
+            children: [
+              Image.asset(
+                'images/Icon1.png',
+                width: 30,
+                height: 30,
+              ),
+              SizedBox(width: 8),
+              Text(
+                'Input Text',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
         ),
       ),
@@ -97,15 +116,18 @@ class _Text_ASLState extends State<Text_ASL> {
                         },
                       ),
                       SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: _clearForm,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                      Container(
+                        child: ElevatedButton(
+                          onPressed: _clearForm,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(248, 18, 202, 156),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            minimumSize: Size(150.0, 50.0),
                           ),
-                          minimumSize: Size(150.0, 50.0),
+                          child: Text('Clear display'),
                         ),
-                        child: Text('Clear display'),
                       ),
                     ],
                   ),
@@ -148,6 +170,7 @@ class _Text_ASLState extends State<Text_ASL> {
                 ElevatedButton(
                   onPressed: _submitForm,
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(248, 18, 202, 156),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
