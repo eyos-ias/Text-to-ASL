@@ -37,7 +37,33 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In'),
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: Image.asset(
+            'images/Vectorback.png',
+            width: 10,
+          ),
+          onPressed: () {
+            Navigator.pop(context); // Navigates to the previous page
+          },
+        ),
+        title: Container(
+          width: 200.0,
+          child: Row(
+            children: [
+              Image.asset(
+                'images/Icon1.png',
+                width: 30,
+                height: 30,
+              ),
+              SizedBox(width: 8),
+              Text(
+                'Sign In',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
       ),
       body: Container(
         padding: EdgeInsets.all(16.0),

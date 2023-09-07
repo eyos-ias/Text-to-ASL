@@ -1,6 +1,7 @@
 import 'package:first/Text_ASL.dart';
 import 'package:first/FilePicker.dart';
 import 'package:first/profile.dart';
+import 'package:first/video_viewer.dart';
 import 'package:first/voice_input.dart';
 import 'package:flutter/material.dart';
 
@@ -194,12 +195,12 @@ class SecondStart extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignInPage(),
+                              builder: (context) => VideoPage(),
                             ),
                           );
                         },
                         child: Text(
-                          'Profile',
+                          'Video Input',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),

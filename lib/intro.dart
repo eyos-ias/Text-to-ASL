@@ -1,3 +1,5 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:first/HomePage.dart';
 import 'package:flutter/material.dart';
 
 class introPage extends StatefulWidget {
@@ -11,15 +13,27 @@ class _introPageState extends State<introPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/Icon1.png'),
-            fit: BoxFit.cover,
+        backgroundColor: Colors.black,
+        body: AnimatedSplashScreen(
+          backgroundColor: Colors.black,
+          splash:
+              //backgroundColor: Colors.black,
+              //text: Text('Commusign')
+              Image.asset(
+            'images/Group 14.png',
           ),
-        ),
-      ),
-    );
+          nextScreen: HomePage(),
+          splashTransition: SplashTransition.scaleTransition,
+          duration: 3000,
+        )
+        // Container(
+        //   decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //       image: AssetImage('images/Icon1.png'),
+        //       fit: BoxFit.cover,
+        //     ),
+        //   ),
+        // ),
+        );
   }
 }
