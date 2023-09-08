@@ -195,7 +195,7 @@ class SecondStart extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VideoPage(),
+                              builder: (context) => VideoCaptureScreen(),
                             ),
                           );
                         },
