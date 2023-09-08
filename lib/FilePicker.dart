@@ -53,10 +53,39 @@ class _FilePickerPageState extends State<FilePickerPage> {
     }
   }
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: Image.asset(
+            'images/Vectorback.png',
+            width: 10,
+          ),
+          onPressed: () {
+            Navigator.pop(context); // Navigates to the previous page
+          },
+        ),
+        title: Container(
+          width: 200.0,
+          child: Row(
+            children: [
+              Image.asset(
+                'images/Icon1.png',
+                width: 30,
+                height: 30,
+              ),
+              SizedBox(width: 8),
+              Text(
+                'File Picker',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,8 +94,8 @@ class _FilePickerPageState extends State<FilePickerPage> {
             child: isLoading
                 ? CircularProgressIndicator()
                 : TextButton(
-                  style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(248, 18, 202, 156)),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(248, 18, 202, 156)),
                     onPressed: () {
                       pickFile(FileContent);
                     },

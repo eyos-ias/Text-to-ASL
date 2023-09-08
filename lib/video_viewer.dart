@@ -3,22 +3,22 @@ import 'package:camera/camera.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:async';
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Video Player',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: VideoPage(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Video Player',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: VideoPage(),
+//     );
+//   }
+// }
 
 class VideoPage extends StatefulWidget {
   @override
