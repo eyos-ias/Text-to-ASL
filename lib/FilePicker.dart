@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -95,11 +96,15 @@ class _FilePickerPageState extends State<FilePickerPage> {
                 ? CircularProgressIndicator()
                 : TextButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(248, 18, 202, 156)),
+                      backgroundColor: Color.fromARGB(248, 18, 202, 156),
+                    ),
                     onPressed: () {
                       pickFile(FileContent);
                     },
-                    child: Text('Pick File'),
+                    child: Text(
+                      'Pick File',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                   ),
           ),
           if (pickedFile != null)

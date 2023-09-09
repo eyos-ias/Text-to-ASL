@@ -188,24 +188,24 @@ class SecondStart extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Container(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(248, 18, 202, 156),
+                        // child: ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: Color.fromARGB(248, 18, 202, 156),
+                        //   ),
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => AudioPlayerApp(),
+                        //       ),
+                        //     );
+                        //   },
+                        //   child: Text(
+                        //     'Video Input',
+                        //     style: TextStyle(color: Colors.white, fontSize: 20),
+                        //   ),
+                        // ),
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AudioPlayerApp(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Video Input',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
-                    ),
                   ),
                 )
               ],

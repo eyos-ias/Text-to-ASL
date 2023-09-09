@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter/services.dart' show rootBundle;
 
+void main() {
+  runApp(MyApp());
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,9 @@ class _VoiceInputState extends State<VoiceInput> {
         setState(() {
           _transcription = result.recognizedWords.toLowerCase();
         });
+        if (result.finalResult) {
+          _stopListening(); // Stop listening when the final result is received
+        }
       },
     );
     setState(() {
@@ -161,7 +168,3 @@ class _VoiceInputState extends State<VoiceInput> {
     );
   }
 }
-
-// void main() {
-//   runApp(MyApp());
-// }
