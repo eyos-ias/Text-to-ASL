@@ -54,6 +54,8 @@ dependencies:
   video_player: ^2.7.1
   microphone: ^0.1.0
   image: ^4.0.17
+  audioplayers: ^5.1.0
+  just_audio: ^0.9.34
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

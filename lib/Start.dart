@@ -1,5 +1,6 @@
 import 'package:first/Text_ASL.dart';
 import 'package:first/FilePicker.dart';
+import 'package:first/audio.dart';
 import 'package:first/profile.dart';
 import 'package:first/video_viewer.dart';
 import 'package:first/voice_input.dart';
@@ -195,7 +196,7 @@ class SecondStart extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VideoCaptureScreen(),
+                              builder: (context) => AudioPlayerApp(),
                             ),
                           );
                         },
